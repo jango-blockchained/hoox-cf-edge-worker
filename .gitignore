@@ -10,7 +10,7 @@ dist/
 */dist/
 */.env
 # Ignore bun files
-bun.lockb
+bun.lock
 .bun/
 
 # Ignore bun files in all subdirectories
