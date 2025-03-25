@@ -1,0 +1,15 @@
+{
+    "name": "crypto-trading-system",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "test": "bun test",
+        "test:watch": "bun test --watch",
+        "test:coverage": "bun test --coverage"
+    },
+    "devDependencies": {
+        "bun-types": "latest",
+        "@types/jest": "^29.5.12",
+        "jest-mock": "^29.7.0"
+    }
+}

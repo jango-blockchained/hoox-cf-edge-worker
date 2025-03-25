@@ -1,0 +1,7 @@
+[test]
+preload = "./test/setup.ts"
+coverage = true
+timeout = 5000
+
+[test.env]
+NODE_ENV = "test" 

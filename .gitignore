@@ -9,3 +9,10 @@ dist/
 */.wrangler/
 */dist/
 */.env
+# Ignore bun files
+bun.lockb
+.bun/
+
+# Ignore bun files in all subdirectories
+*/bun.lockb
+*/.bun/
