@@ -1,1 +1,11 @@
-node_modules/\n.wrangler/\ndist/\n.env\n*/node_modules/\n*/.wrangler/\n*/dist/\n*/.env
+node_modules/
+.wrangler/
+dist/
+.env
+.DS_Store
+
+# Ignore node_modules in all subdirectories
+*/node_modules/
+*/.wrangler/
+*/dist/
+*/.env
