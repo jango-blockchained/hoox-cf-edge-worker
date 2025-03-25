@@ -1,0 +1,9 @@
+[submodule "telegram-worker"]
+	path = telegram-worker
+	url = ./telegram-worker
+[submodule "trade-worker"]
+	path = trade-worker
+	url = ./trade-worker
+[submodule "webhook-receiver"]
+	path = webhook-receiver
+	url = ./webhook-receiver
