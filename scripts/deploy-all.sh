@@ -1,13 +1,38 @@
 #!/bin/bash
 
-# Deploy all workers
-echo "Deploying webhook-receiver..."
-cd ../webhook-receiver && npx wrangler deploy
+# Function to deploy a worker
+deploy_worker() {
+    local worker_name=$1
+    echo "Deploying $worker_name..."
+    cd "$worker_name" || exit 1
+    
+    # Check if wrangler.toml exists
+    if [ ! -f wrangler.toml ]; then
+        echo "Error: wrangler.toml not found in $worker_name"
+        cd ..
+        return 1
+    }
+    
+    # Deploy using wrangler
+    echo "Running wrangler deploy for $worker_name..."
+    bunx wrangler deploy
+    
+    # Check deployment status
+    if [ $? -eq 0 ]; then
+        echo "✅ Successfully deployed $worker_name"
+    else
+        echo "❌ Failed to deploy $worker_name"
+    fi
+    
+    cd ..
+}
 
-echo "Deploying trade-worker..."
-cd ../trade-worker && npx wrangler deploy
+# Main script
+echo "🚀 Starting deployment of all workers..."
 
-echo "Deploying telegram-worker..."
-cd ../telegram-worker && npx wrangler deploy
+# Deploy each worker
+deploy_worker "webhook-receiver"
+deploy_worker "telegram-worker"
+deploy_worker "trade-worker"
 
-echo "All workers deployed successfully!"
+echo "✨ Deployment process completed!"
