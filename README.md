@@ -1,5 +1,7 @@
 # Crypto Trading System with Cloudflare Workers
 
+> A secure, high-performance automated trading system that executes cryptocurrency grid trading strategies using serverless Cloudflare Workers. The system processes TradingView alerts through a webhook system, executes trades on MEXC exchange, and provides real-time notifications via Telegram.
+
 This project implements a secure, serverless trading system using Cloudflare Workers to execute trades on cryptocurrency exchanges based on signals from TradingView alerts.
 
 ## Architecture
