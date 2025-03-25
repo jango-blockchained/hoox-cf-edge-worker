@@ -16,3 +16,4 @@ bun.lock
 # Ignore bun files in all subdirectories
 */bun.lockb
 */.bun/
+cf-worker/
