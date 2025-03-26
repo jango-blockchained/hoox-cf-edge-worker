@@ -1,0 +1,14 @@
+name = "cf-worker"
+main = "src/index.ts"
+compatibility_date = "2024-03-25"
+
+[build]
+command = "npm run build"
+watch_dir = "src"
+
+[env.production]
+name = "cf-worker-prod"
+route = { pattern = "your-domain.com/*", zone_name = "your-domain.com" }
+
+[env.staging]
+name = "cf-worker-staging" 

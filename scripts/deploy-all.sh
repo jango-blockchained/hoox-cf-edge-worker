@@ -11,7 +11,7 @@ deploy_worker() {
         echo "Error: wrangler.toml not found in $worker_name"
         cd ..
         return 1
-    }
+    fi
     
     # Deploy using wrangler
     echo "Running wrangler deploy for $worker_name..."
