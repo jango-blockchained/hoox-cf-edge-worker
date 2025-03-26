@@ -7,3 +7,6 @@
 [submodule "webhook-receiver"]
 	path = webhook-receiver
 	url = ./webhook-receiver
+[submodule "d1-worker"]
+	path = d1-worker
+	url = ./d1-worker
