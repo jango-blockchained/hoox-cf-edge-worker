@@ -17,3 +17,7 @@ bun.lock
 */bun.lockb
 */.bun/
 cf-worker/
+
+# Ignore .dev.vars files
+.dev.vars
+*/.dev.vars
