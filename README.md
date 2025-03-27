@@ -72,7 +72,7 @@ The system consists of four main components:
 
 ## Local Development
 
-Each worker requires its own port for local development to avoid conflicts:
+Local development is managed using Miniconda to create isolated environments for each worker. This ensures that dependencies are properly managed and conflicts are avoided. Each worker runs in its own environment and requires its own port for local development to avoid conflicts:
 
 | Worker | Development Port |
 |--------|-----------------|
@@ -102,7 +102,7 @@ Start each worker on its dedicated port:
 ```bash
 # D1 Worker
 cd d1-worker
-bun run dev -- --port 8787 --local
+bun run dev -- --port 8789 --local
 
 # Trade Worker
 cd ../trade-worker
@@ -110,7 +110,7 @@ bun run dev -- --port 8788
 
 # Webhook Receiver
 cd ../webhook-receiver
-bun run dev -- --port 8789
+bun run dev -- --port 8787
 
 # Telegram Worker
 cd ../telegram-worker
