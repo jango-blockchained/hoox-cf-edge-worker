@@ -18,10 +18,17 @@ describe("Trade Worker", () => {
     };
 
     beforeEach(() => {
-        // Mock MEXC API calls
+        // Mock the fetch function for all tests
         global.fetch = mock(() =>
             Promise.resolve(new Response(
-                JSON.stringify({ success: true }),
+                JSON.stringify({
+                    code: 200,
+                    data: {
+                        orderId: "123456",
+                        symbol: "BTC_USDT",
+                        side: "BUY"
+                    }
+                }),
                 {
                     status: 200,
                     headers: { "Content-Type": "application/json" }
@@ -46,15 +53,68 @@ describe("Trade Worker", () => {
     });
 
     test("executes long position", async () => {
-        global.fetch = mock(() =>
-            Promise.resolve(new Response(
-                JSON.stringify({ success: true, orderId: "123456" }),
+        // Override the fetch mock specifically for this test
+        global.fetch = mock((url, options) => {
+            // Mock the API for account info - for setting leverage
+            if (url.includes("account/info")) {
+                return Promise.resolve(new Response(
+                    JSON.stringify({
+                        code: 200,
+                        data: {
+                            accountId: "test123"
+                        }
+                    }),
+                    {
+                        status: 200,
+                        headers: { "Content-Type": "application/json" }
+                    }
+                ));
+            }
+
+            // Mock the API for setting leverage
+            if (url.includes("position/leverage")) {
+                return Promise.resolve(new Response(
+                    JSON.stringify({
+                        code: 200,
+                        data: true
+                    }),
+                    {
+                        status: 200,
+                        headers: { "Content-Type": "application/json" }
+                    }
+                ));
+            }
+
+            // Mock the API for submitting an order
+            if (url.includes("order/submit")) {
+                return Promise.resolve(new Response(
+                    JSON.stringify({
+                        code: 200,
+                        data: {
+                            orderId: "123456",
+                            symbol: "BTC_USDT",
+                            side: "BUY"
+                        }
+                    }),
+                    {
+                        status: 200,
+                        headers: { "Content-Type": "application/json" }
+                    }
+                ));
+            }
+
+            // Default mock response
+            return Promise.resolve(new Response(
+                JSON.stringify({
+                    code: 200,
+                    data: {}
+                }),
                 {
                     status: 200,
                     headers: { "Content-Type": "application/json" }
                 }
-            ))
-        );
+            ));
+        });
 
         const request = new Request("https://trade-worker.workers.dev", {
             method: "POST",

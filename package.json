@@ -5,7 +5,8 @@
     "scripts": {
         "test": "bun test",
         "test:watch": "bun test --watch",
-        "test:coverage": "bun test --coverage"
+        "test:coverage": "bun test --coverage",
+        "dev:start": "bash scripts/dev-start.sh"
     },
     "devDependencies": {
         "bun-types": "latest",
