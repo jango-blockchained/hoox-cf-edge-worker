@@ -1,5 +1,5 @@
 import { describe, expect, test, beforeEach, mock } from "bun:test";
-import webhookReceiver from "../webhook-receiver/src/index.js";
+import webhookReceiver from "../workers/webhook-receiver/src/index.js";
 
 describe("Webhook Receiver", () => {
     const mockEnv = {

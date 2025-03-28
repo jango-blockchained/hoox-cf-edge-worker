@@ -1,12 +1,12 @@
 [submodule "telegram-worker"]
-	path = telegram-worker
-	url = ./telegram-worker
+	path = workers/telegram-worker
+	url = ./workers/telegram-worker
 [submodule "trade-worker"]
-	path = trade-worker
-	url = ./trade-worker
+	path = workers/trade-worker
+	url = ./workers/trade-worker
 [submodule "webhook-receiver"]
-	path = webhook-receiver
-	url = ./webhook-receiver
+	path = workers/webhook-receiver
+	url = ./workers/webhook-receiver
 [submodule "d1-worker"]
-	path = d1-worker
-	url = ./d1-worker
+	path = workers/d1-worker
+	url = ./workers/d1-worker

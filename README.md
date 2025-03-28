@@ -22,10 +22,10 @@ Deploy each worker to your Cloudflare account with one click:
 
 | Worker | Deploy Button |
 |--------|--------------|
-| D1 Worker | [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yourusername/grid-trading/tree/main/d1-worker) |
-| Trade Worker | [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yourusername/grid-trading/tree/main/trade-worker) |
-| Webhook Receiver | [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yourusername/grid-trading/tree/main/webhook-receiver) |
-| Telegram Worker | [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yourusername/grid-trading/tree/main/telegram-worker) |
+| D1 Worker | [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yourusername/grid-trading/tree/main/workers/d1-worker) |
+| Trade Worker | [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yourusername/grid-trading/tree/main/workers/trade-worker) |
+| Webhook Receiver | [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yourusername/grid-trading/tree/main/workers/webhook-receiver) |
+| Telegram Worker | [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yourusername/grid-trading/tree/main/workers/telegram-worker) |
 
 ### Alternative Deployment Methods
 

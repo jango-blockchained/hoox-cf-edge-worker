@@ -4,12 +4,12 @@
 deploy_worker() {
     local worker_name=$1
     echo "Deploying $worker_name..."
-    cd "$worker_name" || exit 1
+    cd "workers/$worker_name" || exit 1
     
     # Check if wrangler.toml exists
     if [ ! -f wrangler.toml ]; then
-        echo "Error: wrangler.toml not found in $worker_name"
-        cd ..
+        echo "Error: wrangler.toml not found in workers/$worker_name"
+        cd ../..
         return 1
     }
     
@@ -24,7 +24,7 @@ deploy_worker() {
         echo "❌ Failed to deploy $worker_name"
     fi
     
-    cd ..
+    cd ../..
 }
 
 # Main script

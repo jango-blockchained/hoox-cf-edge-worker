@@ -1,5 +1,5 @@
 import { describe, expect, test, beforeEach, mock } from "bun:test";
-import tradeWorker from "../trade-worker/src/index.js";
+import tradeWorker from "../workers/trade-worker/src/index.js";
 
 describe("Trade Worker", () => {
     const mockEnv = {

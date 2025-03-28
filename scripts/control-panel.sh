@@ -92,7 +92,7 @@ start_worker() {
     tmux split-window -t $SESSION_NAME
     tmux select-pane -t $SESSION_NAME:0.$(($(tmux list-panes -t $SESSION_NAME | wc -l) - 1))
     tmux send-keys "echo -e '${GREEN}Starting ${worker_name} on port ${port}...${NC}'" C-m
-    tmux send-keys "cd ${worker_name} && bun run dev -- --port ${port} ${extra_args}" C-m
+    tmux send-keys "cd workers/${worker_name} && bun run dev -- --port ${port} ${extra_args}" C-m
     
     echo -e "${GREEN}${worker_name} started on port ${port}.${NC}"
     read -n 1 -s -p "Press any key to continue..."

@@ -7,7 +7,7 @@ set_worker_secrets() {
     local secrets=("$@")
     
     echo "Setting secrets for $worker_name..."
-    cd "$worker_name" || exit 1
+    cd "workers/$worker_name" || exit 1
     
     for secret in "${secrets[@]}"; do
         echo "Setting $secret..."
@@ -15,7 +15,7 @@ set_worker_secrets() {
         bunx wrangler secret put "$secret" <<< "$secret_value"
     done
     
-    cd ..
+    cd ../..
     echo "✅ Completed setting secrets for $worker_name"
     echo
 }

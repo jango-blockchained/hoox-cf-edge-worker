@@ -39,26 +39,26 @@ tmux new-session -d -s $SESSION_NAME
 tmux split-window -h -t $SESSION_NAME
 tmux select-pane -t 0
 tmux send-keys "echo -e '${GREEN}Starting D1 Worker on port 8787...${NC}'" C-m
-tmux send-keys "cd d1-worker && bun run dev -- --port 8787 --local" C-m
+tmux send-keys "cd workers/d1-worker && bun run dev -- --port 8787 --local" C-m
 
 # Split for Trade Worker
 tmux split-window -v -t $SESSION_NAME
 tmux select-pane -t 1
 tmux send-keys "echo -e '${GREEN}Starting Trade Worker on port 8788...${NC}'" C-m
-tmux send-keys "cd trade-worker && bun run dev -- --port 8788" C-m
+tmux send-keys "cd workers/trade-worker && bun run dev -- --port 8788" C-m
 
 # Split for Webhook Receiver
 tmux split-window -v -t $SESSION_NAME
 tmux select-pane -t 2
 tmux send-keys "echo -e '${GREEN}Starting Webhook Receiver on port 8789...${NC}'" C-m
-tmux send-keys "cd webhook-receiver && bun run dev -- --port 8789" C-m
+tmux send-keys "cd workers/webhook-receiver && bun run dev -- --port 8789" C-m
 
 # Split for Telegram Worker
 tmux select-pane -t 0
 tmux split-window -v -t $SESSION_NAME
 tmux select-pane -t 1
 tmux send-keys "echo -e '${GREEN}Starting Telegram Worker on port 8790...${NC}'" C-m
-tmux send-keys "cd telegram-worker && bun run dev -- --port 8790" C-m
+tmux send-keys "cd workers/telegram-worker && bun run dev -- --port 8790" C-m
 
 # Create a control panel in a separate pane
 tmux select-pane -t 3

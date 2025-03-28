@@ -1,5 +1,5 @@
 import { describe, expect, test, beforeEach, mock } from "bun:test";
-import telegramWorker from "../telegram-worker/src/index.js";
+import telegramWorker from "../workers/telegram-worker/src/index.js";
 
 describe("Telegram Worker", () => {
     const mockEnv = {

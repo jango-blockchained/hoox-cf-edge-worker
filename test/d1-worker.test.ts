@@ -1,5 +1,5 @@
 import { describe, expect, test, beforeEach, mock } from "bun:test";
-import d1Worker from "../d1-worker/src/index.js";
+import d1Worker from "../workers/d1-worker/src/index.js";
 
 describe("D1 Worker", () => {
     // Mock D1 database prepared statement and response
