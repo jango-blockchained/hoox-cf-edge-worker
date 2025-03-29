@@ -12,6 +12,11 @@ echo -e "${YELLOW}  Update INTERNAL_SERVICE_KEY for Production ${NC}"
 echo -e "${YELLOW}=============================================${NC}"
 echo
 
+# Get the script's directory using absolute path
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+KEYS_SCRIPT="${SCRIPT_DIR}/keys.sh"
+
 # Check if OpenSSL is installed
 if ! command -v openssl &> /dev/null; then
     echo -e "${RED}Error: OpenSSL is not installed. Please install it first.${NC}"
@@ -24,15 +29,21 @@ if ! command -v bunx &> /dev/null; then
     exit 1
 fi
 
+# Check if keys script exists
+if [ ! -f "$KEYS_SCRIPT" ]; then
+    echo -e "${RED}Error: Keys management script not found at: $KEYS_SCRIPT${NC}"
+    exit 1
+fi
+
 # Navigate to the root directory
-cd "$(dirname "$0")/.." || {
+cd "${PROJECT_ROOT}" || {
     echo -e "${RED}Error: Could not navigate to the root directory.${NC}"
     exit 1
 }
 
 # Check for existing service key
 echo -e "${BLUE}Checking for existing INTERNAL_SERVICE_KEY...${NC}"
-CURRENT_SERVICE_KEY=$("$(dirname "$0")/keys.sh" get "INTERNAL_SERVICE_KEY" "prod" 64)
+CURRENT_SERVICE_KEY=$("$KEYS_SCRIPT" get "INTERNAL_SERVICE_KEY" "prod" 64)
 
 if [ -z "$CURRENT_SERVICE_KEY" ]; then
     echo -e "${RED}Error: Failed to get or generate service key.${NC}"
@@ -50,7 +61,7 @@ read -p "Select an option (1/2): " key_option
 
 if [[ "$key_option" == "2" ]]; then
     echo -e "\n${YELLOW}Generating a new INTERNAL_SERVICE_KEY...${NC}"
-    NEW_SERVICE_KEY=$("$(dirname "$0")/keys.sh" generate "INTERNAL_SERVICE_KEY" "prod" 64)
+    NEW_SERVICE_KEY=$("$KEYS_SCRIPT" generate "INTERNAL_SERVICE_KEY" "prod" 64)
     
     if [ -z "$NEW_SERVICE_KEY" ]; then
         echo -e "${RED}Error: Failed to generate a new service key.${NC}"
@@ -82,7 +93,7 @@ for worker_path in $worker_dirs; do
     worker_name=$(basename "$worker_path")
     
     echo -e "\nUpdating INTERNAL_SERVICE_KEY for ${YELLOW}$worker_name${NC}..."
-    cd "$worker_path" || {
+    cd "${PROJECT_ROOT}/${worker_path}" || {
         echo -e "${RED}Error: Could not navigate to $worker_path.${NC}"
         continue
     }

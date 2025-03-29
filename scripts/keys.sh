@@ -10,16 +10,20 @@ RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+# Get the script's directory using absolute path
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
 # Location of the keys storage file (hidden in the project root)
-KEYS_DIR="$(dirname "$0")/../.keys"
-LOCAL_KEYS_FILE="$KEYS_DIR/local_keys.env"
-PROD_KEYS_FILE="$KEYS_DIR/prod_keys.env"
+KEYS_DIR="${PROJECT_ROOT}/.keys"
+LOCAL_KEYS_FILE="${KEYS_DIR}/local_keys.env"
+PROD_KEYS_FILE="${KEYS_DIR}/prod_keys.env"
 
 # Ensure the keys directory exists
-mkdir -p "$KEYS_DIR"
-touch "$LOCAL_KEYS_FILE"
-touch "$PROD_KEYS_FILE"
-chmod 600 "$LOCAL_KEYS_FILE" "$PROD_KEYS_FILE"
+mkdir -p "${KEYS_DIR}"
+touch "${LOCAL_KEYS_FILE}"
+touch "${PROD_KEYS_FILE}"
+chmod 600 "${LOCAL_KEYS_FILE}" "${PROD_KEYS_FILE}"
 
 # Function to generate a secure key
 generate_key() {
@@ -35,20 +39,20 @@ get_or_generate_key() {
     local storage_file
     
     if [[ "$environment" == "local" ]]; then
-        storage_file="$LOCAL_KEYS_FILE"
+        storage_file="${LOCAL_KEYS_FILE}"
     else
-        storage_file="$PROD_KEYS_FILE"
+        storage_file="${PROD_KEYS_FILE}"
     fi
     
     # Check if the key exists in the file
     if grep -q "^$key_name=" "$storage_file"; then
         # Extract the key value
         key_value=$(grep "^$key_name=" "$storage_file" | cut -d'=' -f2)
-        echo -e "${BLUE}Using existing $key_name...${NC}"
+        echo -e "${BLUE}Using existing $key_name...${NC}" >&2
     else
         # Generate a new key
         key_value=$(generate_key $length)
-        echo -e "${YELLOW}Generated new $key_name...${NC}"
+        echo -e "${YELLOW}Generated new $key_name...${NC}" >&2
         # Store the key
         echo "$key_name=$key_value" >> "$storage_file"
     fi
@@ -64,9 +68,9 @@ update_key() {
     local storage_file
     
     if [[ "$environment" == "local" ]]; then
-        storage_file="$LOCAL_KEYS_FILE"
+        storage_file="${LOCAL_KEYS_FILE}"
     else
-        storage_file="$PROD_KEYS_FILE"
+        storage_file="${PROD_KEYS_FILE}"
     fi
     
     # Generate a new key
@@ -96,10 +100,10 @@ list_keys() {
     local storage_file
     
     if [[ "$environment" == "local" ]]; then
-        storage_file="$LOCAL_KEYS_FILE"
+        storage_file="${LOCAL_KEYS_FILE}"
         echo -e "${BLUE}Local Development Keys:${NC}"
     else
-        storage_file="$PROD_KEYS_FILE"
+        storage_file="${PROD_KEYS_FILE}"
         echo -e "${BLUE}Production Keys:${NC}"
     fi
     

@@ -12,21 +12,32 @@ echo -e "${YELLOW}  Update API_SECRET_KEY for Local Dev  ${NC}"
 echo -e "${YELLOW}=======================================${NC}"
 echo
 
+# Get the script's directory using absolute path
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+KEYS_SCRIPT="${SCRIPT_DIR}/keys.sh"
+
 # Check if OpenSSL is installed
 if ! command -v openssl &> /dev/null; then
     echo -e "${RED}Error: OpenSSL is not installed. Please install it first.${NC}"
     exit 1
 fi
 
+# Check if keys script exists
+if [ ! -f "$KEYS_SCRIPT" ]; then
+    echo -e "${RED}Error: Keys management script not found at: $KEYS_SCRIPT${NC}"
+    exit 1
+fi
+
 # Navigate to webhook-receiver directory
-cd "$(dirname "$0")/../workers/webhook-receiver" || {
+cd "${PROJECT_ROOT}/workers/webhook-receiver" || {
     echo -e "${RED}Error: Could not navigate to webhook-receiver directory.${NC}"
     exit 1
 }
 
 # Check for existing key first
 echo -e "${BLUE}Checking for existing API_SECRET_KEY...${NC}"
-CURRENT_KEY=$("$(dirname "$0")/keys.sh" get "API_SECRET_KEY" "local" 64)
+CURRENT_KEY=$("$KEYS_SCRIPT" get "API_SECRET_KEY" "local" 64)
 
 if [ -z "$CURRENT_KEY" ]; then
     echo -e "${RED}Error: Failed to get or generate API key.${NC}"
@@ -44,7 +55,7 @@ read -p "Select an option (1/2): " key_option
 
 if [[ "$key_option" == "2" ]]; then
     echo -e "\n${YELLOW}Generating a new API_SECRET_KEY...${NC}"
-    NEW_API_KEY=$("$(dirname "$0")/keys.sh" generate "API_SECRET_KEY" "local" 64)
+    NEW_API_KEY=$("$KEYS_SCRIPT" generate "API_SECRET_KEY" "local" 64)
     
     if [ -z "$NEW_API_KEY" ]; then
         echo -e "${RED}Error: Failed to generate a new API key.${NC}"
