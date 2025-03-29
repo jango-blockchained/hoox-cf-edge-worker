@@ -21,3 +21,7 @@ cf-worker/
 # Ignore .dev.vars files
 .dev.vars
 */.dev.vars
+
+# Ignore keys
+.keys/
+*/.keys/
