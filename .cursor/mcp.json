@@ -9,11 +9,14 @@
           ]
         },
         "memory": {
-          "command": "node",
+          "command": "npx",
           "args": [
-            "/home/jango/.npm/_npx/384319a4c8dff50b/node_modules/@cloudflare/mcp-server-memory/dist/index.js",
-            "run"
+            "-y",
+            "@modelcontextprotocol/server-memory"
           ],
+          "env": {
+            "MEMORY_FILE_PATH": ".cursor/memory.json"
+          }
         }
       }
     }

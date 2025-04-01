@@ -25,3 +25,6 @@ cf-worker/
 # Ignore keys
 .keys/
 */.keys/
+
+.cursor/rules/
+.cursor/mcp.json
