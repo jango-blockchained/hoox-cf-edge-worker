@@ -8,7 +8,7 @@ describe("Telegram Worker", () => {
     };
 
     const validNotification = {
-        message: "⚠️ BTC Grid Signal: LONG at 50000",
+        message: "⚠️ BTC Hoox Signal: LONG at 50000",
         chatId: 123456789
     };
 

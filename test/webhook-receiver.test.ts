@@ -18,7 +18,7 @@ describe("Webhook Receiver", () => {
         price: 50000,
         leverage: 20,
         notify: {
-            message: "⚠️ BTC Grid Signal: LONG at 50000",
+            message: "⚠️ BTC Hoox Signal: LONG at 50000",
             chatId: 123456789
         }
     };

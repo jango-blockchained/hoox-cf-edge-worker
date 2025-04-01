@@ -13,7 +13,7 @@ CLEAR_SCREEN='\033[2J'
 CURSOR_HOME='\033[H'
 
 # Define session name
-SESSION_NAME="grid-trading"
+SESSION_NAME="hoox-trading"
 
 # Store worker PIDs for control
 d1_worker_pid=""
@@ -25,7 +25,7 @@ telegram_worker_pid=""
 show_menu() {
     echo -e "${CLEAR_SCREEN}${CURSOR_HOME}"
     echo -e "${CYAN}=======================================================${NC}"
-    echo -e "${CYAN}           Grid Trading System Control Panel           ${NC}"
+    echo -e "${CYAN}           Hoox Trading System Control Panel           ${NC}"
     echo -e "${CYAN}=======================================================${NC}"
     echo -e ""
     echo -e "${YELLOW}Worker Status:${NC}"

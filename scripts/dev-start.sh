@@ -12,7 +12,7 @@ CLEAR_SCREEN='\033[2J'
 CURSOR_HOME='\033[H'
 
 # Define the session name
-SESSION_NAME="grid-trading"
+SESSION_NAME="hoox-trading"
 
 # Check if tmux is installed
 if ! command -v tmux &> /dev/null; then

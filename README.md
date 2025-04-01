@@ -3,10 +3,10 @@
 [![Bun](https://img.shields.io/badge/runtime-Bun-F7DF1E.svg)](https://bun.sh)
 [![Cloudflare Workers](https://img.shields.io/badge/platform-Cloudflare%20Workers-F38020.svg)](https://workers.cloudflare.com/)
 [![D1 Database](https://img.shields.io/badge/database-Cloudflare%20D1-F38020.svg)](https://developers.cloudflare.com/d1/)
-[![Maintenance](https://img.shields.io/badge/Maintained-yes-green.svg)](https://github.com/yourusername/grid-trading/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained-yes-green.svg)](https://github.com/yourusername/hoox-trading/graphs/commit-activity)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-> A secure, high-performance automated trading system that executes cryptocurrency grid trading strategies using serverless Cloudflare Workers. The system processes TradingView alerts through a webhook system, executes trades on cryptocurrency exchanges, and provides real-time notifications via Telegram.
+> A secure, high-performance automated trading system that executes cryptocurrency hoox trading strategies using serverless Cloudflare Workers. The system processes TradingView alerts through a webhook system, executes trades on cryptocurrency exchanges, and provides real-time notifications via Telegram.
 
 ## 🔍 Overview
 
@@ -148,10 +148,10 @@ Deploy each worker to your Cloudflare account with one click:
 
 | Worker | Deploy Button |
 |--------|--------------|
-| D1 Worker | [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yourusername/grid-trading/tree/main/workers/d1-worker) |
-| Trade Worker | [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yourusername/grid-trading/tree/main/workers/trade-worker) |
-| Webhook Receiver | [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yourusername/grid-trading/tree/main/workers/webhook-receiver) |
-| Telegram Worker | [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yourusername/grid-trading/tree/main/workers/telegram-worker) |
+| D1 Worker | [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yourusername/hoox-trading/tree/main/workers/d1-worker) |
+| Trade Worker | [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yourusername/hoox-trading/tree/main/workers/trade-worker) |
+| Webhook Receiver | [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yourusername/hoox-trading/tree/main/workers/webhook-receiver) |
+| Telegram Worker | [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yourusername/hoox-trading/tree/main/workers/telegram-worker) |
 
 ### Alternative Deployment Methods
 
@@ -179,8 +179,8 @@ Follow these steps to set up the project:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/grid-trading.git
-   cd grid-trading
+   git clone https://github.com/yourusername/hoox-trading.git
+   cd hoox-trading
    ```
 
 2. **Install dependencies**
@@ -208,7 +208,7 @@ Follow these steps to set up the project:
 4. **Create a D1 database**
    ```bash
    cd d1-worker
-   wrangler d1 create grid-trading-db
+   wrangler d1 create hoox-trading-db
    cd ..
    ```
 
@@ -237,115 +237,58 @@ Local development requires running all workers on separate ports to avoid confli
 | webhook-receiver | 8789 |
 | telegram-worker | 8790 |
 
+### Terminal User Interface (TUI)
+
+The project includes a modern Terminal User Interface for managing workers:
+
+```bash
+# Run the TUI with explicit stdin
+exec < /dev/tty
+bun run tui
+```
+
+> **Note:** The TUI requires an interactive terminal with proper stdin access. Run it directly in your terminal, not in a CI/CD pipeline or background process.
+
+For non-interactive environments or quick status checks, use:
+
+```bash
+# Check worker status without interactive UI
+bun run status
+```
+
+The TUI provides:
+
+- **Dashboard View**: See status of all workers at a glance
+- **Worker Controls**: Start, stop, restart individual workers
+- **Logs Viewer**: Real-time monitoring of worker logs
+- **Keyboard Navigation**: Easily switch views and control workers
+
+![TUI Screenshot](docs/tui-screenshot.png)
+
+#### Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| 1-3 | Switch tabs (Dashboard, Workers, Logs) |
+| Esc | Return to dashboard |
+| Ctrl+Q | Exit application |
+| a | Start all workers (in Workers tab) |
+| s | Stop all workers (in Workers tab) |
+| r | Restart all workers (in Workers tab) |
+| ↑/↓ | Scroll logs |
+| PgUp/PgDn | Page through logs |
+| g/G | Jump to top/bottom of logs |
+
+#### Troubleshooting
+
+If you encounter issues running the TUI:
+
+1. **Operation not permitted errors**: Make sure you're running in an interactive terminal session
+2. **No visual output**: Try running with `NODE_ENV=production ./hoox-tui`
+3. **Input not working**: Use the direct `./hoox-tui` script which properly configures stdin
+
 ### Environment Variables
 
 For local development, environment variables are loaded from `.dev.vars` files in each worker directory. Example `.dev.vars` file for the trade-worker:
 
 ```
-INTERNAL_SERVICE_KEY=your_development_key
-MEXC_API_KEY=your_mexc_key
-MEXC_API_SECRET=your_mexc_secret
-D1_WORKER_URL=http://localhost:8787
-```
-
-In production, environment variables are set through `wrangler.toml` or using `wrangler secret put`.
-
-### Quick Start Development
-
-For convenience, you can use the dev-start script:
-
-```bash
-./scripts/dev-start.sh
-```
-
-This will start all workers on their respective ports with the correct configuration.
-
-### Running Individual Development Servers
-
-Start each worker on its dedicated port:
-
-```bash
-# D1 Worker (use --local for local SQLite database)
-cd d1-worker
-bun run dev -- --port 8787 --local
-
-# Trade Worker
-cd ../trade-worker
-bun run dev -- --port 8788
-
-# Webhook Receiver
-cd ../webhook-receiver
-bun run dev -- --port 8789
-
-# Telegram Worker
-cd ../telegram-worker
-bun run dev -- --port 8790
-```
-
-## 📈 TradingView Setup
-
-Configure a TradingView alert with the following webhook settings:
-
-- **URL**: `https://webhook-receiver.your-domain.workers.dev`
-- **Method**: POST
-- **Body**:
-  ```json
-  {
-    "apiKey": "your-api-secret-key",
-    "exchange": "mexc",
-    "action": "LONG",
-    "symbol": "BTC_USDT",
-    "quantity": {{strategy.order.contracts}},
-    "price": {{close}},
-    "leverage": 20,
-    "notify": {
-      "message": "⚠️ BTC Grid Signal: {{strategy.order.action}} at {{close}}",
-      "chatId": 123456789
-    }
-  }
-  ```
-
-## 🔒 Security Considerations
-
-- Use strong, randomly generated API keys
-- Set up rate limiting on your Cloudflare account
-- Implement IP access rules to restrict webhook access
-- Rotate API keys periodically
-
-## 🧩 Worker Details
-
-### Webhook Receiver
-- Public-facing endpoint for TradingView
-- Validates API key included in the JSON payload
-- Routes requests to the appropriate worker
-- Sends notifications via Telegram
-- Current implementation in `webhook-receiver/src/index.js`
-
-### Trade Worker
-- Executes trades on multiple exchanges (MEXC, Binance, Bybit)
-- Only accepts authenticated requests from the webhook receiver
-- Handles various trade actions (LONG, SHORT, CLOSE_LONG, CLOSE_SHORT)
-- Logs requests and responses to D1 database (if enabled)
-- Exchange-specific client implementations in separate files
-- Current implementation in `trade-worker/src/index.js`
-
-### Telegram Worker
-- Sends notifications to Telegram
-- Only accepts authenticated requests from the webhook receiver
-- Supports HTML formatting for messages
-- Current implementation in `telegram-worker/src/index.js`
-
-### D1 Worker
-- Provides centralized database operations
-- Stores trade requests and responses
-- Supports SQL queries and batch operations
-- Secure API with authentication
-- Current implementation in `d1-worker/src/index.js`
-
-## 📜 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.

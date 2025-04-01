@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# This is a simple wrapper script that runs the Hoox Trading System TUI
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+exec "$SCRIPT_DIR/scripts/tui.sh" "$@" 
