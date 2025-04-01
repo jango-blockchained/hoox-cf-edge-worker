@@ -226,7 +226,85 @@ Follow these steps to set up the project:
    ./scripts/setup-worker-domains.sh
    ```
 
-## 🧪 Local Development
+## 🧪 Testing
+
+The project uses Bun's test runner for unit and integration testing. Tests are now organized within each worker's directory structure.
+
+### Test Structure
+
+Each worker contains its own tests in the following structure:
+```
+workers/
+  ├── webhook-receiver/
+  │   ├── src/
+  │   └── test/
+  │       ├── webhook-receiver.test.ts
+  │       ├── setup.ts
+  │       └── types.d.ts
+  ├── trade-worker/
+  │   ├── src/
+  │   └── test/
+  │       ├── trade-worker.test.ts
+  │       ├── setup.ts
+  │       └── types.d.ts
+  └── ...
+```
+
+### Running Tests
+
+You can run tests from the root of the project or individually within each worker:
+
+#### Central Test Management
+
+From the project root:
+```bash
+# Run all tests
+bun run test
+
+# Run tests with watch mode
+bun run test:watch
+
+# Run tests with coverage
+bun run test:coverage
+```
+
+#### Individual Worker Testing
+
+You can also run tests for a specific worker:
+```bash
+cd workers/webhook-receiver
+bun test
+
+# With coverage
+bun test --coverage
+```
+
+### Writing New Tests
+
+When adding new functionality, please also add corresponding tests. Each test file should:
+
+1. Import the worker module
+2. Mock external dependencies
+3. Test both success and error cases
+
+Example:
+```typescript
+import { describe, expect, test, beforeEach, mock } from "bun:test";
+import myWorker from "../src/index.js";
+
+describe("My Worker", () => {
+  // Test setup
+  beforeEach(() => {
+    // Mock external dependencies
+  });
+
+  test("should handle valid input", async () => {
+    // Test code here
+  });
+});
+```
+
+## 🔧 Local Development
 
 Local development requires running all workers on separate ports to avoid conflicts:
 
@@ -239,7 +317,7 @@ Local development requires running all workers on separate ports to avoid confli
 
 ### Terminal User Interface (TUI)
 
-The project includes a modern Terminal User Interface for managing workers:
+The project includes a modern Terminal User Interface with a clean, code-system design for managing workers:
 
 ```bash
 # Run the TUI with explicit stdin
@@ -256,12 +334,14 @@ For non-interactive environments or quick status checks, use:
 bun run status
 ```
 
-The TUI provides:
+The clean-design TUI provides:
 
-- **Dashboard View**: See status of all workers at a glance
-- **Worker Controls**: Start, stop, restart individual workers
-- **Logs Viewer**: Real-time monitoring of worker logs
-- **Keyboard Navigation**: Easily switch views and control workers
+- **Workers List**: View status of all workers with color-coded indicators
+- **Worker Details**: Control panel for individual worker management
+- **Real-time Logs**: View logs for the selected worker
+- **System Overview**: Quick stats on running/stopped worker counts
+- **Global Actions**: Commands that affect all workers at once
+- **Keyboard Navigation**: Easily switch between panels and control workers
 
 ![TUI Screenshot](docs/tui-screenshot.png)
 
@@ -269,23 +349,15 @@ The TUI provides:
 
 | Key | Action |
 |-----|--------|
-| 1-3 | Switch tabs (Dashboard, Workers, Logs) |
-| Esc | Return to dashboard |
-| Ctrl+Q | Exit application |
-| a | Start all workers (in Workers tab) |
-| s | Stop all workers (in Workers tab) |
-| r | Restart all workers (in Workers tab) |
-| ↑/↓ | Scroll logs |
-| PgUp/PgDn | Page through logs |
-| g/G | Jump to top/bottom of logs |
-
-#### Troubleshooting
-
-If you encounter issues running the TUI:
-
-1. **Operation not permitted errors**: Make sure you're running in an interactive terminal session
-2. **No visual output**: Try running with `NODE_ENV=production ./hoox-tui`
-3. **Input not working**: Use the direct `./hoox-tui` script which properly configures stdin
+| ↑/↓ | Navigate worker list |
+| Tab | Cycle focus between panels |
+| s | Start selected worker |
+| k | Stop (kill) selected worker |
+| r | Restart selected worker |
+| S | Start all workers |
+| K | Stop all workers |
+| R | Restart all workers |
+| q or Ctrl+Q | Exit application |
 
 ### Environment Variables
 

@@ -1,5 +1,21 @@
 #!/bin/bash
 
-# This is a simple wrapper script that runs the Hoox Trading System TUI
-SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
-exec "$SCRIPT_DIR/scripts/tui.sh" "$@" 
+# Cryptolinx Worker Control System TUI
+
+# Ensure we're in a TTY-capable environment
+if [ ! -t 0 ]; then
+  echo "Error: This TUI requires an interactive terminal."
+  echo "Please run it directly in a terminal window."
+  exit 1
+fi
+
+# Go to the script directory to ensure proper path resolution
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
+# Make the script executable if needed
+chmod +x ./src/tui/app.js
+
+# Run the TUI application with node, redirecting stdin from the TTY
+node ./src/tui/app.js < /dev/tty
+
+echo "TUI terminated." 
